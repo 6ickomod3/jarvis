@@ -30,11 +30,6 @@ struct DashboardView: View {
                     
                     // Simple Module Grid
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                        // Food Module
-                        NavigationLink(destination: FoodDashboardView()) {
-                            ModuleCard(title: "Food", icon: "carrot.fill", color: Color.calorieRing)
-                        }
-                        
                         // Travel Module
                         NavigationLink(destination: TravelDashboardView()) {
                             ModuleCard(title: "Travel", icon: "airplane.circle.fill", color: Color.brandPrimary)

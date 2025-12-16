@@ -5,8 +5,6 @@ import SwiftData
 struct LifeLoggerApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            MealEntry.self,
-            FoodItem.self,
             Trip.self,
             PackingItem.self,
             PackingCategory.self,
