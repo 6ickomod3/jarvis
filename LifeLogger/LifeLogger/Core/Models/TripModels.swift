@@ -66,17 +66,19 @@ final class PackingItem {
     var name: String
     var category: String // Reverted from categoryName to match old schema
     var isPacked: Bool
-    var orderIndex: Int // For reordering
+    var quantity: Int = 1 // Default value for migration
+    var orderIndex: Int = 0 // Default value for migration
     var createdAt: Date
     
     // Inverse relationship
     var trip: Trip?
     
-    init(name: String, category: String = "Other", isPacked: Bool = false) {
+    init(name: String, category: String = "Other", isPacked: Bool = false, quantity: Int = 1) {
         self.id = UUID()
         self.name = name
         self.category = category
         self.isPacked = isPacked
+        self.quantity = quantity
         self.orderIndex = 0 // Default
         self.createdAt = Date()
     }

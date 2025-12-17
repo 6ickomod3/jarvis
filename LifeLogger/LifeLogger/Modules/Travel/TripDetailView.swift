@@ -152,29 +152,59 @@ struct TripDetailView: View {
 
 struct TripItemRow: View {
     @Bindable var item: PackingItem
+    @State private var showingEdit = false
+    @State private var newQuantity = 1
     
     var body: some View {
-        Button(action: {
-            withAnimation(.spring(duration: 0.2)) {
-                item.isPacked.toggle()
-            }
-        }) {
-            HStack(spacing: 12) {
+        HStack(spacing: 12) {
+            // Checkbox Button
+            Button(action: {
+                withAnimation(.spring(duration: 0.2)) {
+                    item.isPacked.toggle()
+                }
+            }) {
                 Image(systemName: item.isPacked ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 22))
                     .foregroundStyle(item.isPacked ? Color.accentSuccess : Color.brandSecondary)
-                
-                Text(item.name)
-                    .font(.body)
-                    .strikethrough(item.isPacked)
-                    .foregroundStyle(item.isPacked ? Color.secondaryText : Color.primaryText)
-                
-                Spacer()
             }
-            .contentShape(Rectangle()) // Improves tap area
+            .buttonStyle(.plain)
+            
+            // Item Name & Quantity (Tap to Edit)
+            Button(action: {
+                newQuantity = item.quantity
+                showingEdit = true
+            }) {
+                HStack {
+                    if item.quantity > 1 {
+                        Text("\(item.quantity)x")
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color.brandPrimary)
+                    }
+                    
+                    Text(item.name)
+                        .font(.body)
+                        .strikethrough(item.isPacked)
+                        .foregroundStyle(item.isPacked ? Color.secondaryText : Color.primaryText)
+                    
+                    Spacer()
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
         .padding(.vertical, 4)
+        .alert("Edit Quantity", isPresented: $showingEdit) {
+            TextField("Quantity", value: $newQuantity, format: .number)
+                .keyboardType(.numberPad)
+            Button("Cancel", role: .cancel) { }
+            Button("Save") {
+                if newQuantity > 0 {
+                    item.quantity = newQuantity
+                }
+            }
+        } message: {
+            Text("Enter a quantity for \(item.name).")
+        }
     }
 }
 

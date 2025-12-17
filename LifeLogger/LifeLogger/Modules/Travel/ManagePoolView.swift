@@ -136,9 +136,8 @@ struct ManageItemsView: View {
     private func addItem() {
         guard !newItemName.isEmpty else { return }
         withAnimation {
-            // Capitalize first letter of each word
-            let capitalizedName = newItemName.capitalized
-            let item = MasterPackingItem(name: capitalizedName, category: category)
+            // No auto-capitalization as requested
+            let item = MasterPackingItem(name: newItemName, category: category)
             modelContext.insert(item)
             // Relationship is auto-updated by SwiftData usually, but explicit append is safe
             category.items.append(item) 
